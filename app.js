@@ -1,9 +1,6 @@
-/* ===== TaskFlow — Todo App ===== */
-
 (function () {
     'use strict';
 
-    // ===== DOM Elements =====
     const loader = document.getElementById('loader');
     const loaderProgressBar = document.getElementById('loaderProgressBar');
     const app = document.getElementById('app');
@@ -22,12 +19,10 @@
     const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
 
-    // ===== State =====
     let todos = JSON.parse(localStorage.getItem('taskflow_todos')) || [];
     let currentFilter = 'all';
     let deleteTargetId = null;
 
-    // ===== Loading Screen (3 seconds) =====
     function initLoader() {
         const duration = 3000;
         const interval = 30;
@@ -47,29 +42,24 @@
         }, interval);
     }
 
-    // ===== Date Display =====
     function setCurrentDate() {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         currentDateEl.textContent = new Date().toLocaleDateString('en-US', options);
     }
 
-    // ===== Save to LocalStorage =====
     function saveTodos() {
         localStorage.setItem('taskflow_todos', JSON.stringify(todos));
     }
 
-    // ===== Generate Unique ID =====
     function generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
     }
 
-    // ===== Format Time =====
     function formatTime(timestamp) {
         const date = new Date(timestamp);
         return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // ===== Update Stats =====
     function updateStats() {
         const total = todos.length;
         const completed = todos.filter(function (t) { return t.completed; }).length;
@@ -97,7 +87,6 @@
         }, 50);
     }
 
-    // ===== Get Filtered Todos =====
     function getFilteredTodos() {
         switch (currentFilter) {
             case 'active':
@@ -109,7 +98,6 @@
         }
     }
 
-    // ===== Render Todos =====
     function renderTodos() {
         const filtered = getFilteredTodos();
         todoList.innerHTML = '';
@@ -179,7 +167,6 @@
         todoInput.focus();
     }
 
-    // ===== Toggle Todo =====
     function toggleTodo(id) {
         todos = todos.map(function (t) {
             if (t.id === id) {
@@ -191,7 +178,6 @@
         renderTodos();
     }
 
-    // ===== Delete Todo =====
     function deleteTodo(id) {
         const item = todoList.querySelector('[data-id="' + id + '"]');
         if (item) {
@@ -208,14 +194,12 @@
         }
     }
 
-    // ===== Clear Completed =====
     function clearCompleted() {
         todos = todos.filter(function (t) { return !t.completed; });
         saveTodos();
         renderTodos();
     }
 
-    // ===== Clear All =====
     function clearAll() {
         if (todos.length === 0) return;
         todos = [];
@@ -223,7 +207,6 @@
         renderTodos();
     }
 
-    // ===== Event Listeners =====
     todoForm.addEventListener('submit', function (e) {
         e.preventDefault();
         addTodo(todoInput.value);
@@ -272,7 +255,6 @@
         });
     });
 
-    // ===== Initialize =====
     initLoader();
     setCurrentDate();
     renderTodos();
