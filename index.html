@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow — Professional Todo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="loader" class="loader-wrapper">
+        <div class="loader-content">
+            <div class="loader-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <h2 class="loader-title">TaskFlow</h2>
+            <p class="loader-subtitle">Organize your day, achieve more</p>
+            <div class="loader-progress">
+                <div class="loader-progress-bar" id="loaderProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app" class="app-hidden">
+
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top app-navbar">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <span class="brand-icon"><i class="bi bi-check2-square"></i></span>
+                    <span class="brand-text">TaskFlow</span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                        <li class="nav-item">
+                            <span class="nav-date" id="currentDate"></span>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-outline-light btn-sm clear-all-btn" id="clearAllBtn">
+                                <i class="bi bi-trash3 me-1"></i> Clear All
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header class="hero-section">
+            <div class="container">
+                <div class="hero-content text-center animate-fade-up">
+                    <h1 class="hero-title">Stay Organized,<br><span class="gradient-text">Stay Productive</span></h1>
+                    <p class="hero-subtitle">Manage your tasks effortlessly with a clean, intuitive interface.</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-8 col-xl-7">
+
+                        <div class="row g-3 mb-4 stats-row animate-fade-up delay-1">
+                            <div class="col-4">
+                                <div class="stat-card">
+                                    <div class="stat-icon total-icon"><i class="bi bi-list-task"></i></div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="totalCount">0</span>
+                                        <span class="stat-label">Total</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card">
+                                    <div class="stat-icon active-icon"><i class="bi bi-hourglass-split"></i></div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="activeCount">0</span>
+                                        <span class="stat-label">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card">
+                                    <div class="stat-icon done-icon"><i class="bi bi-check-circle"></i></div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="completedCount">0</span>
+                                        <span class="stat-label">Done</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="todo-card animate-fade-up delay-2">
+                            <form id="todoForm" class="todo-form">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-plus-lg"></i></span>
+                                    <input
+                                        type="text"
+                                        id="todoInput"
+                                        class="form-control todo-input"
+                                        placeholder="What needs to be done?"
+                                        autocomplete="off"
+                                        maxlength="120"
+                                    >
+                                    <button type="submit" class="btn btn-primary add-btn" id="addBtn">
+                                        <i class="bi bi-send-fill"></i>
+                                        <span class="d-none d-sm-inline ms-1">Add</span>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="filter-tabs">
+                                <button class="filter-btn active" data-filter="all">
+                                    <i class="bi bi-collection"></i> All
+                                </button>
+                                <button class="filter-btn" data-filter="active">
+                                    <i class="bi bi-circle"></i> Active
+                                </button>
+                                <button class="filter-btn" data-filter="completed">
+                                    <i class="bi bi-check-circle"></i> Completed
+                                </button>
+                            </div>
+
+                            <ul id="todoList" class="todo-list"></ul>
+
+                            <div id="emptyState" class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="bi bi-clipboard-check"></i>
+                                </div>
+                                <h5>No tasks yet</h5>
+                                <p>Add a task above to get started on your productive day!</p>
+                            </div>
+
+                            <div class="todo-footer" id="todoFooter">
+                                <span class="items-left" id="itemsLeft">0 items left</span>
+                                <button class="btn btn-link clear-completed-btn" id="clearCompletedBtn">
+                                    Clear completed
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="container text-center">
+                <p>&copy; 2026 TaskFlow. Built with HTML, CSS, Bootstrap &amp; JavaScript.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-custom">
+                <div class="modal-body text-center p-4">
+                    <div class="modal-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                    <h5 class="modal-title-custom">Delete Task?</h5>
+                    <p class="text-muted mb-4">This action cannot be undone.</p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger px-4" id="confirmDeleteBtn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
